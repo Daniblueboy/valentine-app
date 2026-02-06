@@ -76,6 +76,16 @@ const CelebrationScreen = ({ recipientName, senderNumber }: CelebrationScreenPro
     setTimeout(() => clearInterval(fireworkInterval), 6000);
   }, []);
 
+  const getWhatsAppUrl = (phone: string, message: string) => {
+    const isApple =
+      typeof navigator !== "undefined" &&
+      /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent);
+    const base = isApple ? "https://api.whatsapp.com/send" : "https://wa.me";
+    return isApple
+      ? `${base}?phone=${phone}&text=${encodeURIComponent(message)}`
+      : `${base}/${phone}?text=${encodeURIComponent(message)}`;
+  };
+
   return (
     <motion.div
       className="fixed inset-0 flex items-start justify-center z-50 px-4 py-6 md:py-10 overflow-hidden"
@@ -168,9 +178,10 @@ const CelebrationScreen = ({ recipientName, senderNumber }: CelebrationScreenPro
 
         {senderNumber && (
           <motion.a
-            href={`https://wa.me/${senderNumber}?text=${encodeURIComponent(
+            href={getWhatsAppUrl(
+              senderNumber,
               "Yes, I'd be your Valentine! 💕"
-            )}`}
+            )}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center justify-center mt-6 px-6 py-3 rounded-full bg-white text-candy-red font-semibold shadow-lg hover:bg-white/90 transition"

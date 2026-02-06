@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart, Send, Sparkles } from "lucide-react";
 import FloatingHearts from "@/components/FloatingHearts";
@@ -11,6 +10,7 @@ const HomePage = () => {
   const [showRecipientShare, setShowRecipientShare] = useState(false);
   const [copied, setCopied] = useState(false);
   const [linkReady, setLinkReady] = useState(false);
+  const [step, setStep] = useState<1 | 2 | 3>(1);
 
   const formatName = (value: string) =>
     value
@@ -39,8 +39,14 @@ const HomePage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (step === 1) {
+      if (name.trim()) setStep(2);
+      return;
+    }
     if (!generatedLink) return;
     setLinkReady(true);
+    setStep(3);
+    setShowRecipientShare(false);
   };
 
   const handleCopy = async () => {
@@ -54,16 +60,22 @@ const HomePage = () => {
     }
   };
 
+  const getWhatsAppUrl = (phone: string, message: string) => {
+    const isApple =
+      typeof navigator !== "undefined" &&
+      /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent);
+    const base = isApple ? "https://api.whatsapp.com/send" : "https://wa.me";
+    return isApple
+      ? `${base}?phone=${phone}&text=${encodeURIComponent(message)}`
+      : `${base}/${phone}?text=${encodeURIComponent(message)}`;
+  };
+
   const handleShareToRecipient = () => {
     if (!generatedLink) return;
     const recipientNumber = sanitizePhone(recipientWhatsApp);
     if (!recipientNumber) return;
     const message = `I made something special for you 💌 ${generatedLink}`;
-    window.open(
-      `https://wa.me/${recipientNumber}?text=${encodeURIComponent(message)}`,
-      "_blank",
-      "noreferrer"
-    );
+    window.open(getWhatsAppUrl(recipientNumber, message), "_blank", "noreferrer");
   };
 
   return (
@@ -118,77 +130,99 @@ const HomePage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
-          <div className="relative">
-            <Heart className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-candy-pink" />
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-                if (linkReady) setLinkReady(false);
-              }}
-              placeholder="Enter their name... 💌"
-              className="w-full pl-12 pr-4 py-4 rounded-full bg-secondary border-2 border-candy-blush focus:border-candy-pink focus:outline-none focus:ring-4 focus:ring-candy-pink/20 text-foreground text-lg font-medium placeholder:text-muted-foreground/60 transition-all"
-            />
-          </div>
-          <p className="text-sm text-muted-foreground">
-            Enter your partner’s name so the message feels personal.
-          </p>
+          {step === 1 && (
+            <>
+              <div className="relative">
+                <Heart className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-candy-pink" />
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    setLinkReady(false);
+                    setShowRecipientShare(false);
+                    setRecipientWhatsApp("");
+                  }}
+                  placeholder="Enter their name... 💌"
+                  className="w-full pl-12 pr-4 py-4 rounded-full bg-secondary border-2 border-candy-blush focus:border-candy-pink focus:outline-none focus:ring-4 focus:ring-candy-pink/20 text-foreground text-lg font-medium placeholder:text-muted-foreground/60 transition-all"
+                />
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Enter your partner’s name so the message feels personal.
+              </p>
+              <motion.button
+                type="button"
+                onClick={() => name.trim() && setStep(2)}
+                className="candy-button w-full py-4 text-primary-foreground text-xl font-bold flex items-center justify-center gap-3"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <span>Next</span>
+                <Send className="w-5 h-5" />
+              </motion.button>
+            </>
+          )}
 
-          <div className="relative">
-            <input
-              type="tel"
-              inputMode="numeric"
-              value={whatsAppNumber}
-              onChange={(e) => {
-                setWhatsAppNumber(e.target.value);
-                if (linkReady) setLinkReady(false);
-              }}
-              placeholder="Your WhatsApp number (with country code)"
-              className="w-full px-4 py-4 rounded-full bg-secondary border-2 border-candy-blush focus:border-candy-pink focus:outline-none focus:ring-4 focus:ring-candy-pink/20 text-foreground text-lg font-medium placeholder:text-muted-foreground/60 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base transition-all"
-            />
-          </div>
-          <p className="text-sm text-muted-foreground">
-            Enter your WhatsApp number so their sweet “yes” can find its way back to you. 💞
-          </p>
-
-          {!linkReady && (
-            <motion.button
-              type="submit"
-              className="candy-button w-full py-4 text-primary-foreground text-xl font-bold flex items-center justify-center gap-3"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <span>Create My Valentine</span>
-              <Send className="w-5 h-5" />
-            </motion.button>
+          {step === 2 && (
+            <>
+              <div className="relative">
+                <input
+                  type="tel"
+                  inputMode="numeric"
+                  value={whatsAppNumber}
+                  onChange={(e) => {
+                    setWhatsAppNumber(e.target.value);
+                    setLinkReady(false);
+                    setShowRecipientShare(false);
+                    setRecipientWhatsApp("");
+                  }}
+                  placeholder="Your WhatsApp number (with country code)"
+                  className="w-full px-4 py-4 rounded-full bg-secondary border-2 border-candy-blush focus:border-candy-pink focus:outline-none focus:ring-4 focus:ring-candy-pink/20 text-foreground text-lg font-medium placeholder:text-muted-foreground/60 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base transition-all"
+                />
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Enter your WhatsApp number so their sweet “yes” can find its way back to you. 💞
+              </p>
+              <motion.button
+                type="submit"
+                onClick={() => {
+                  if (!generatedLink) return;
+                  setLinkReady(true);
+                  setStep(3);
+                }}
+                className="candy-button w-full py-4 text-primary-foreground text-xl font-bold flex items-center justify-center gap-3"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <span>Create My Valentine</span>
+                <Send className="w-5 h-5" />
+              </motion.button>
+            </>
           )}
         </motion.form>
 
-        {linkReady && generatedLink && (
+        {step === 3 && linkReady && generatedLink && (
           <motion.div
             className="mt-6 space-y-3"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
           >
             <div className="text-sm text-muted-foreground">Share this link</div>
-            <div className="flex flex-col md:flex-row gap-3">
-              <input
-                type="text"
-                readOnly
-                value={generatedLink}
-                className="flex-1 px-4 py-3 rounded-full bg-secondary border-2 border-candy-blush text-foreground text-sm"
-              />
-              <button
-                type="button"
-                onClick={handleCopy}
-                className="candy-button px-5 py-3 text-primary-foreground font-semibold"
-              >
-                {copied ? "Copied!" : "Copy Link"}
-              </button>
-            </div>
-            <div className="flex flex-col md:flex-row gap-3">
-              {!showRecipientShare ? (
+            {!showRecipientShare && (
+              <div className="flex flex-col md:flex-row gap-3">
+                <input
+                  type="text"
+                  readOnly
+                  value={generatedLink}
+                  className="flex-1 px-4 py-3 rounded-full bg-secondary border-2 border-candy-blush text-foreground text-sm"
+                />
+                <button
+                  type="button"
+                  onClick={handleCopy}
+                  className="candy-button px-5 py-3 text-primary-foreground font-semibold"
+                >
+                  {copied ? "Copied!" : "Copy Link"}
+                </button>
                 <button
                   type="button"
                   onClick={() => setShowRecipientShare(true)}
@@ -196,26 +230,27 @@ const HomePage = () => {
                 >
                   Share to Recipient
                 </button>
-              ) : (
-                <>
-                  <input
-                    type="tel"
-                    inputMode="numeric"
-                    value={recipientWhatsApp}
-                    onChange={(e) => setRecipientWhatsApp(e.target.value)}
-                    placeholder="Recipient WhatsApp number"
-                    className="flex-1 px-4 py-3 rounded-full bg-secondary border-2 border-candy-blush text-foreground text-sm placeholder:text-muted-foreground/60 placeholder:text-xs sm:placeholder:text-sm"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleShareToRecipient}
-                    className="candy-button px-5 py-3 text-primary-foreground font-semibold"
-                  >
-                    Send Link
-                  </button>
-                </>
-              )}
-            </div>
+              </div>
+            )}
+            {showRecipientShare && (
+              <div className="flex flex-col md:flex-row gap-3">
+                <input
+                  type="tel"
+                  inputMode="numeric"
+                  value={recipientWhatsApp}
+                  onChange={(e) => setRecipientWhatsApp(e.target.value)}
+                  placeholder="Recipient WhatsApp number"
+                  className="flex-1 px-4 py-3 rounded-full bg-secondary border-2 border-candy-blush text-foreground text-sm placeholder:text-muted-foreground/60 placeholder:text-xs sm:placeholder:text-sm"
+                />
+                <button
+                  type="button"
+                  onClick={handleShareToRecipient}
+                  className="candy-button px-5 py-3 text-primary-foreground font-semibold"
+                >
+                  Send Link
+                </button>
+              </div>
+            )}
           </motion.div>
         )}
 
