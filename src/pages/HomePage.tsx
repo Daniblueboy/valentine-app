@@ -7,7 +7,7 @@ import FloatingHearts from "@/components/FloatingHearts";
 const HomePage = () => {
   const [name, setName] = useState("");
   const [copied, setCopied] = useState(false);
-  const navigate = useNavigate();
+  const [linkReady, setLinkReady] = useState(false);
 
   const formatName = (value: string) =>
     value
@@ -33,9 +33,8 @@ const HomePage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const formattedName = formatName(name);
-    const params = formattedName ? `?name=${encodeURIComponent(formattedName)}` : "";
-    navigate(`/valentine${params}`);
+    if (!generatedLink) return;
+    setLinkReady(true);
   };
 
   const handleCopy = async () => {
@@ -106,24 +105,29 @@ const HomePage = () => {
             <input
               type="text"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setName(e.target.value);
+                if (linkReady) setLinkReady(false);
+              }}
               placeholder="Enter their name... 💌"
               className="w-full pl-12 pr-4 py-4 rounded-full bg-secondary border-2 border-candy-blush focus:border-candy-pink focus:outline-none focus:ring-4 focus:ring-candy-pink/20 text-foreground text-lg font-medium placeholder:text-muted-foreground/60 transition-all"
             />
           </div>
 
-          <motion.button
-            type="submit"
-            className="candy-button w-full py-4 text-primary-foreground text-xl font-bold flex items-center justify-center gap-3"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <span>Create My Valentine</span>
-            <Send className="w-5 h-5" />
-          </motion.button>
+          {!linkReady && (
+            <motion.button
+              type="submit"
+              className="candy-button w-full py-4 text-primary-foreground text-xl font-bold flex items-center justify-center gap-3"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <span>Create My Valentine</span>
+              <Send className="w-5 h-5" />
+            </motion.button>
+          )}
         </motion.form>
 
-        {generatedLink && (
+        {linkReady && generatedLink && (
           <motion.div
             className="mt-6 space-y-3"
             initial={{ opacity: 0, y: 10 }}
