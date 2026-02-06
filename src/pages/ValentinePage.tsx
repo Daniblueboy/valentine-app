@@ -39,7 +39,7 @@ const ValentinePage = () => {
   const token = id || searchParams.get("t") || "";
   const decoded = token ? decodePayload(token) : {};
   const recipientName = formatName(decoded.name || searchParams.get("name") || "");
-  const senderNumber = (decoded.sender || searchParams.get("sender") || "").replace(/[^\\d]/g, "");
+  const senderNumber = (decoded.sender || searchParams.get("sender") || "").replace(/[^\d]/g, "");
   
   const [attempts, setAttempts] = useState(0);
   const [accepted, setAccepted] = useState(false);
