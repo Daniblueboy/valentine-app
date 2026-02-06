@@ -76,15 +76,8 @@ const CelebrationScreen = ({ recipientName, senderNumber }: CelebrationScreenPro
     setTimeout(() => clearInterval(fireworkInterval), 6000);
   }, []);
 
-  const getWhatsAppUrl = (phone: string, message: string) => {
-    const isApple =
-      typeof navigator !== "undefined" &&
-      /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent);
-    const base = isApple ? "https://api.whatsapp.com/send" : "https://wa.me";
-    return isApple
-      ? `${base}?phone=${phone}&text=${encodeURIComponent(message)}`
-      : `${base}/${phone}?text=${encodeURIComponent(message)}`;
-  };
+  const getWhatsAppUrl = (phone: string, message: string) =>
+    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
   return (
     <motion.div
