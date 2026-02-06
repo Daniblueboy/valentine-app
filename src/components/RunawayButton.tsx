@@ -20,6 +20,10 @@ const noTexts = [
 const RunawayButton = ({ attempts, onAttempt }: RunawayButtonProps) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isAnimating, setIsAnimating] = useState(false);
+  const prefersHover =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(hover: hover)").matches;
 
   const runAway = useCallback(() => {
     if (isAnimating) return;
@@ -41,6 +45,14 @@ const RunawayButton = ({ attempts, onAttempt }: RunawayButtonProps) => {
     setTimeout(() => setIsAnimating(false), 300);
   }, [isAnimating, onAttempt]);
 
+  const runAwaySequence = useCallback(() => {
+    runAway();
+    if (prefersHover) return;
+    // On touch devices, nudge a few extra times for a "dancing" effect
+    setTimeout(runAway, 250);
+    setTimeout(runAway, 500);
+  }, [prefersHover, runAway]);
+
   const buttonText = noTexts[Math.min(attempts, noTexts.length - 1)];
   
   // Shrink button as attempts increase
@@ -61,8 +73,8 @@ const RunawayButton = ({ attempts, onAttempt }: RunawayButtonProps) => {
         damping: 25,
       }}
       onMouseEnter={runAway}
-      onClick={runAway}
-      onTouchStart={runAway}
+      onClick={runAwaySequence}
+      onTouchStart={runAwaySequence}
     >
       {buttonText}
     </motion.button>
