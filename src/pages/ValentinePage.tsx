@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, Sparkles } from "lucide-react";
 import FloatingHearts from "@/components/FloatingHearts";
@@ -9,6 +9,8 @@ import CelebrationScreen from "@/components/CelebrationScreen";
 
 const ValentinePage = () => {
   const [searchParams] = useSearchParams();
+  const { id } = useParams();
+  
   const formatName = (value: string) =>
     value
       .trim()
@@ -33,10 +35,11 @@ const ValentinePage = () => {
     }
   };
 
-  const token = searchParams.get("t") || "";
+  // Support both old format (/valentine?t=) and new format (/v/:id)
+  const token = id || searchParams.get("t") || "";
   const decoded = token ? decodePayload(token) : {};
   const recipientName = formatName(decoded.name || searchParams.get("name") || "");
-  const senderNumber = (decoded.sender || searchParams.get("sender") || "").replace(/[^\d]/g, "");
+  const senderNumber = (decoded.sender || searchParams.get("sender") || "").replace(/[^\\d]/g, "");
   
   const [attempts, setAttempts] = useState(0);
   const [accepted, setAccepted] = useState(false);

@@ -53,9 +53,8 @@ const HomePage = () => {
     const sanitizedNumber = sanitizePhone(numberWithCode);
     if (!formattedName || !sanitizedNumber) return "";
     const token = encodePayload({ name: formattedName, sender: sanitizedNumber });
-    const params = `?t=${encodeURIComponent(token)}`;
     const origin = typeof window !== "undefined" ? window.location.origin : "";
-    return `${origin}/valentine${params}`;
+    return `${origin}/v/${token}`;
   }, [name, whatsAppNumber]);
 
   const handleSubmit = (e: React.FormEvent) => {
