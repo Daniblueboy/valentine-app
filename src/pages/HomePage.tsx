@@ -300,7 +300,7 @@ const HomePage = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          Built with <Heart className="w-3 h-3 inline-block mx-1 text-candy-pink fill-candy-pink" /> by Gbemi & Daniblueboy
+          Built with <Heart className="w-3 h-3 inline-block mx-1 text-candy-pink fill-candy-pink" /> by Gbemi & <a href="http://danielobasuyi.com/" target="_blank" rel="noopener noreferrer" className="hover:text-candy-pink transition-colors">Daniblueboy</a>
         </motion.p>
       </motion.div>
     </div>
