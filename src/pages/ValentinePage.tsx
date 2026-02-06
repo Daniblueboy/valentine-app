@@ -23,8 +23,20 @@ const ValentinePage = () => {
       )
       .join(" ");
 
-  const recipientName = formatName(searchParams.get("name") || "");
-  const senderNumber = (searchParams.get("sender") || "").replace(/[^\d]/g, "");
+  const decodePayload = (token: string) => {
+    try {
+      const base64 = token.replace(/-/g, "+").replace(/_/g, "/");
+      const json = decodeURIComponent(escape(atob(base64)));
+      return JSON.parse(json) as { name?: string; sender?: string };
+    } catch {
+      return {};
+    }
+  };
+
+  const token = searchParams.get("t") || "";
+  const decoded = token ? decodePayload(token) : {};
+  const recipientName = formatName(decoded.name || searchParams.get("name") || "");
+  const senderNumber = (decoded.sender || searchParams.get("sender") || "").replace(/[^\d]/g, "");
   
   const [attempts, setAttempts] = useState(0);
   const [accepted, setAccepted] = useState(false);
