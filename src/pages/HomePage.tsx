@@ -7,6 +7,8 @@ import FloatingHearts from "@/components/FloatingHearts";
 const HomePage = () => {
   const [name, setName] = useState("");
   const [whatsAppNumber, setWhatsAppNumber] = useState("");
+  const [recipientWhatsApp, setRecipientWhatsApp] = useState("");
+  const [showRecipientShare, setShowRecipientShare] = useState(false);
   const [copied, setCopied] = useState(false);
   const [linkReady, setLinkReady] = useState(false);
 
@@ -50,6 +52,18 @@ const HomePage = () => {
     } catch {
       setCopied(false);
     }
+  };
+
+  const handleShareToRecipient = () => {
+    if (!generatedLink) return;
+    const recipientNumber = sanitizePhone(recipientWhatsApp);
+    if (!recipientNumber) return;
+    const message = `I made something special for you 💌 ${generatedLink}`;
+    window.open(
+      `https://wa.me/${recipientNumber}?text=${encodeURIComponent(message)}`,
+      "_blank",
+      "noreferrer"
+    );
   };
 
   return (
@@ -117,6 +131,9 @@ const HomePage = () => {
               className="w-full pl-12 pr-4 py-4 rounded-full bg-secondary border-2 border-candy-blush focus:border-candy-pink focus:outline-none focus:ring-4 focus:ring-candy-pink/20 text-foreground text-lg font-medium placeholder:text-muted-foreground/60 transition-all"
             />
           </div>
+          <p className="text-sm text-muted-foreground">
+            Enter your partner’s name so the message feels personal.
+          </p>
 
           <div className="relative">
             <input
@@ -169,6 +186,35 @@ const HomePage = () => {
               >
                 {copied ? "Copied!" : "Copy Link"}
               </button>
+            </div>
+            <div className="flex flex-col md:flex-row gap-3">
+              {!showRecipientShare ? (
+                <button
+                  type="button"
+                  onClick={() => setShowRecipientShare(true)}
+                  className="candy-button px-5 py-3 text-primary-foreground font-semibold"
+                >
+                  Share to Recipient
+                </button>
+              ) : (
+                <>
+                  <input
+                    type="tel"
+                    inputMode="numeric"
+                    value={recipientWhatsApp}
+                    onChange={(e) => setRecipientWhatsApp(e.target.value)}
+                    placeholder="Recipient WhatsApp number"
+                    className="flex-1 px-4 py-3 rounded-full bg-secondary border-2 border-candy-blush text-foreground text-sm placeholder:text-muted-foreground/60 placeholder:text-xs sm:placeholder:text-sm"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleShareToRecipient}
+                    className="candy-button px-5 py-3 text-primary-foreground font-semibold"
+                  >
+                    Send Link
+                  </button>
+                </>
+              )}
             </div>
           </motion.div>
         )}
