@@ -215,24 +215,26 @@ const HomePage = () => {
           >
             <div className="text-sm text-muted-foreground">Share this link</div>
             {!showRecipientShare && (
-              <div className="flex flex-col md:flex-row gap-3">
-                <input
-                  type="text"
-                  readOnly
-                  value={generatedLink}
-                  className="flex-1 px-4 py-3 rounded-full bg-secondary border-2 border-candy-blush text-foreground text-sm"
-                />
-                <button
-                  type="button"
-                  onClick={handleCopy}
-                  className="candy-button px-5 py-3 text-primary-foreground font-semibold"
-                >
-                  {copied ? "Copied!" : "Copy Link"}
-                </button>
+              <div className="space-y-3">
+                <div className="flex flex-col md:flex-row gap-3">
+                  <input
+                    type="text"
+                    readOnly
+                    value={generatedLink}
+                    className="flex-1 px-4 py-3 rounded-full bg-secondary border-2 border-candy-blush text-foreground text-sm"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className="candy-button px-5 py-3 text-primary-foreground font-semibold"
+                  >
+                    {copied ? "Copied!" : "Copy Link"}
+                  </button>
+                </div>
                 <button
                   type="button"
                   onClick={() => setShowRecipientShare(true)}
-                  className="candy-button px-5 py-3 text-primary-foreground font-semibold"
+                  className="candy-button w-full px-5 py-3 text-primary-foreground font-semibold"
                 >
                   Share to Recipient
                 </button>
