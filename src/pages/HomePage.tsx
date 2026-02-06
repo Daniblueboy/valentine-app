@@ -50,7 +50,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="h-[100dvh] w-screen flex items-center justify-center p-4 relative overflow-hidden">
       <FloatingHearts />
       
       <motion.div

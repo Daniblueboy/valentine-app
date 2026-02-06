@@ -27,12 +27,14 @@ const RunawayButton = ({ attempts, onAttempt }: RunawayButtonProps) => {
     setIsAnimating(true);
     onAttempt();
     
-    // Calculate random position within viewport bounds
-    const maxX = window.innerWidth - 200;
-    const maxY = window.innerHeight - 100;
-    
-    const newX = Math.random() * maxX - maxX / 2;
-    const newY = Math.random() * maxY - maxY / 2;
+    // Calculate random position within viewport bounds (keep button visible)
+    const paddingX = 48;
+    const paddingY = 64;
+    const maxX = Math.max(0, window.innerWidth / 2 - paddingX);
+    const maxY = Math.max(0, window.innerHeight / 2 - paddingY);
+
+    const newX = (Math.random() * 2 - 1) * maxX;
+    const newY = (Math.random() * 2 - 1) * maxY;
     
     setPosition({ x: newX, y: newY });
     
