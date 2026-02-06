@@ -13,10 +13,17 @@ const CelebrationScreen = ({ recipientName, senderNumber }: CelebrationScreenPro
   const hasPlayed = useRef(false);
   const selectedSong = useRef(
     [
-      { id: "450p7goxZqg", title: "All of Me" },
-      { id: "2Vv-BfVoq4g", title: "Perfect" },
-      { id: "UfcAVejslrU", title: "A Thousand Years" },
-    ][Math.floor(Math.random() * 3)]
+      { id: "450p7goxZqg", title: "All of Me - John Legend" },
+      { id: "2Vv-BfVoq4g", title: "Perfect - Ed Sheeran" },
+      { id: "UfcAVejslrU", title: "A Thousand Years - Christina Perri" },
+      { id: "lp-EO5I60KA", title: "Thinking Out Loud - Ed Sheeran" },
+      { id: "nfWlot6h_JM", title: "Say You Won't Let Go - James Arthur" },
+      { id: "RT8dNkD3pYU", title: "Make You Feel My Love - Adele" },
+      { id: "qN4ooNx77u0", title: "Die With A Smile - Lady Gaga & Bruno Mars" },
+      { id: "Mgfe5tIwOj0", title: "Marry You - Bruno Mars" },
+      { id: "e_S9VvJM1PI", title: "Mirrors - Justin Timberlake" },
+      { id: "fLexgOxsZu0", title: "All Of Me - John Legend (Live)" },
+    ][Math.floor(Math.random() * 10)]
   );
   const origin = typeof window !== "undefined" ? window.location.origin : "";
 
