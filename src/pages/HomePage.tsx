@@ -53,7 +53,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="h-[100dvh] w-screen flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="h-[100dvh] w-screen flex items-center justify-center p-4 relative overflow-hidden small-screen-scroll">
       <FloatingHearts />
       
       <motion.div
@@ -80,7 +80,7 @@ const HomePage = () => {
         </motion.div>
 
         <motion.h1
-          className="font-display text-4xl md:text-5xl text-gradient mb-4"
+          className="font-display text-4xl md:text-5xl text-gradient mb-4 home-title"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -89,7 +89,7 @@ const HomePage = () => {
         </motion.h1>
 
         <motion.p
-          className="text-muted-foreground text-lg mb-8"
+          className="text-muted-foreground text-lg mb-8 home-subtitle"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
@@ -128,9 +128,12 @@ const HomePage = () => {
                 if (linkReady) setLinkReady(false);
               }}
               placeholder="Your WhatsApp number (with country code)"
-              className="w-full px-4 py-4 rounded-full bg-secondary border-2 border-candy-blush focus:border-candy-pink focus:outline-none focus:ring-4 focus:ring-candy-pink/20 text-foreground text-lg font-medium placeholder:text-muted-foreground/60 transition-all"
+              className="w-full px-4 py-4 rounded-full bg-secondary border-2 border-candy-blush focus:border-candy-pink focus:outline-none focus:ring-4 focus:ring-candy-pink/20 text-foreground text-lg font-medium placeholder:text-muted-foreground/60 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base transition-all"
             />
           </div>
+          <p className="text-sm text-muted-foreground">
+            Enter your WhatsApp number so their sweet “yes” can find its way back to you. 💞
+          </p>
 
           {!linkReady && (
             <motion.button

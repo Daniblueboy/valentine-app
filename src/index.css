@@ -160,6 +160,32 @@
   }
 }
 
+@media (max-width: 320px) {
+  .small-screen-scroll {
+    overflow-y: auto;
+  }
+
+  .home-title {
+    font-size: 1.75rem;
+  }
+
+  .home-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .valentine-hey {
+    font-size: 1.6rem;
+  }
+
+  .valentine-lead {
+    font-size: 1rem;
+  }
+
+  .valentine-question {
+    font-size: 1.6rem;
+  }
+}
+
 @layer utilities {
   .text-gradient {
     background: var(--gradient-candy);

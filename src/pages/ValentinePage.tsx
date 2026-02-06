@@ -42,7 +42,7 @@ const ValentinePage = () => {
   }
 
   return (
-    <div className="h-[100dvh] w-screen flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="h-[100dvh] w-screen flex items-center justify-center p-4 relative overflow-hidden small-screen-scroll">
       <FloatingHearts />
 
       <motion.div
@@ -66,7 +66,7 @@ const ValentinePage = () => {
         <AnimatePresence mode="wait">
           <motion.h1
             key={recipientName}
-            className="font-display text-[2rem] text-gradient mb-4"
+            className="font-display text-[2rem] text-gradient mb-4 valentine-hey"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
@@ -76,7 +76,7 @@ const ValentinePage = () => {
         </AnimatePresence>
 
         <motion.p
-          className="text-xl md:text-2xl text-foreground font-medium mb-2"
+          className="text-xl md:text-2xl text-foreground font-medium mb-2 valentine-lead"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
@@ -85,7 +85,7 @@ const ValentinePage = () => {
         </motion.p>
 
         <motion.h2
-          className="font-display text-[2rem] md:text-[4rem] text-candy-red mb-10"
+          className="font-display text-[2rem] md:text-[4rem] text-candy-red mb-10 valentine-question"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5, type: "spring" }}
