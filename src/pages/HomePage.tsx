@@ -28,11 +28,18 @@ const HomePage = () => {
 
   const sanitizePhone = (value: string) => value.replace(/[^\d]/g, "");
 
+  const encodePayload = (payload: { name: string; sender: string }) => {
+    const json = JSON.stringify(payload);
+    const base64 = btoa(unescape(encodeURIComponent(json)));
+    return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+  };
+
   const generatedLink = useMemo(() => {
     const formattedName = formatName(name);
     const sanitizedNumber = sanitizePhone(whatsAppNumber);
     if (!formattedName || !sanitizedNumber) return "";
-    const params = `?name=${encodeURIComponent(formattedName)}&sender=${encodeURIComponent(sanitizedNumber)}`;
+    const token = encodePayload({ name: formattedName, sender: sanitizedNumber });
+    const params = `?t=${encodeURIComponent(token)}`;
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     return `${origin}/valentine${params}`;
   }, [name, whatsAppNumber]);
@@ -60,8 +67,15 @@ const HomePage = () => {
     }
   };
 
-  const getWhatsAppUrl = (phone: string, message: string) =>
-    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  const getWhatsAppUrl = (phone: string, message: string) => {
+    const encodedMessage = encodeURIComponent(message);
+    // Use whatsapp:// protocol for better iOS/Mac compatibility
+    // Falls back to wa.me for web browsers
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    return isMobile
+      ? `whatsapp://send?phone=${phone}&text=${encodedMessage}`
+      : `https://wa.me/${phone}?text=${encodedMessage}`;
+  };
 
   const handleShareToRecipient = () => {
     if (!generatedLink) return;
@@ -161,7 +175,6 @@ const HomePage = () => {
               <div className="relative">
                 <input
                   type="tel"
-                  inputMode="numeric"
                   value={whatsAppNumber}
                   onChange={(e) => {
                     setWhatsAppNumber(e.target.value);
@@ -169,7 +182,7 @@ const HomePage = () => {
                     setShowRecipientShare(false);
                     setRecipientWhatsApp("");
                   }}
-                  placeholder="Your WhatsApp number (with country code)"
+                  placeholder="Your WhatsApp number (e.g., +2348012345678)"
                   className="w-full px-4 py-4 rounded-full bg-secondary border-2 border-candy-blush focus:border-candy-pink focus:outline-none focus:ring-4 focus:ring-candy-pink/20 text-foreground text-lg font-medium placeholder:text-muted-foreground/60 placeholder:text-xs sm:placeholder:text-sm md:placeholder:text-base transition-all"
                 />
               </div>
@@ -229,10 +242,9 @@ const HomePage = () => {
               <div className="flex flex-col md:flex-row gap-3">
                 <input
                   type="tel"
-                  inputMode="numeric"
                   value={recipientWhatsApp}
                   onChange={(e) => setRecipientWhatsApp(e.target.value)}
-                  placeholder="Recipient WhatsApp number"
+                  placeholder="Recipient WhatsApp (e.g., +2348012345678)"
                   className="flex-1 px-4 py-3 rounded-full bg-secondary border-2 border-candy-blush text-foreground text-sm placeholder:text-muted-foreground/60 placeholder:text-xs sm:placeholder:text-sm"
                 />
                 <button
