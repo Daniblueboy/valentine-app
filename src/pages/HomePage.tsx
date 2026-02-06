@@ -202,7 +202,7 @@ const HomePage = () => {
                 />
               </div>
               <p className="text-sm text-muted-foreground">
-                <span className="font-semibold">Important:</span> Include your country code (e.g., +234 for Nigeria) so their sweet "yes" can find its way back to you. 💞
+                Enter your WhatsApp number so their sweet "yes" can find its way back to you. 💞
               </p>
               <motion.button
                 type="submit"
