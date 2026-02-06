@@ -281,7 +281,7 @@ const HomePage = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
-          Share the link and watch <span className="whitespace-nowrap">the magic happen ✨💞</span>
+          {/* Share the link and watch <span className="whitespace-nowrap">the magic happen ✨💞</span> */}
         </motion.p>
 
         <motion.p
