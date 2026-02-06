@@ -24,6 +24,7 @@ const ValentinePage = () => {
       .join(" ");
 
   const recipientName = formatName(searchParams.get("name") || "");
+  const senderNumber = (searchParams.get("sender") || "").replace(/[^\d]/g, "");
   
   const [attempts, setAttempts] = useState(0);
   const [accepted, setAccepted] = useState(false);
@@ -37,7 +38,7 @@ const ValentinePage = () => {
   };
 
   if (accepted) {
-    return <CelebrationScreen recipientName={recipientName} />;
+    return <CelebrationScreen recipientName={recipientName} senderNumber={senderNumber} />;
   }
 
   return (

@@ -6,6 +6,7 @@ import FloatingHearts from "@/components/FloatingHearts";
 
 const HomePage = () => {
   const [name, setName] = useState("");
+  const [whatsAppNumber, setWhatsAppNumber] = useState("");
   const [copied, setCopied] = useState(false);
   const [linkReady, setLinkReady] = useState(false);
 
@@ -23,13 +24,16 @@ const HomePage = () => {
       )
       .join(" ");
 
+  const sanitizePhone = (value: string) => value.replace(/[^\d]/g, "");
+
   const generatedLink = useMemo(() => {
     const formattedName = formatName(name);
-    if (!formattedName) return "";
-    const params = `?name=${encodeURIComponent(formattedName)}`;
+    const sanitizedNumber = sanitizePhone(whatsAppNumber);
+    if (!formattedName || !sanitizedNumber) return "";
+    const params = `?name=${encodeURIComponent(formattedName)}&sender=${encodeURIComponent(sanitizedNumber)}`;
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     return `${origin}/valentine${params}`;
-  }, [name]);
+  }, [name, whatsAppNumber]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,6 +115,20 @@ const HomePage = () => {
               }}
               placeholder="Enter their name... 💌"
               className="w-full pl-12 pr-4 py-4 rounded-full bg-secondary border-2 border-candy-blush focus:border-candy-pink focus:outline-none focus:ring-4 focus:ring-candy-pink/20 text-foreground text-lg font-medium placeholder:text-muted-foreground/60 transition-all"
+            />
+          </div>
+
+          <div className="relative">
+            <input
+              type="tel"
+              inputMode="numeric"
+              value={whatsAppNumber}
+              onChange={(e) => {
+                setWhatsAppNumber(e.target.value);
+                if (linkReady) setLinkReady(false);
+              }}
+              placeholder="Your WhatsApp number (with country code)"
+              className="w-full px-4 py-4 rounded-full bg-secondary border-2 border-candy-blush focus:border-candy-pink focus:outline-none focus:ring-4 focus:ring-candy-pink/20 text-foreground text-lg font-medium placeholder:text-muted-foreground/60 transition-all"
             />
           </div>
 

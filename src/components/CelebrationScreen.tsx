@@ -6,9 +6,10 @@ import FloatingCelebration from "@/components/FloatingCelebration";
 
 interface CelebrationScreenProps {
   recipientName: string;
+  senderNumber?: string;
 }
 
-const CelebrationScreen = ({ recipientName }: CelebrationScreenProps) => {
+const CelebrationScreen = ({ recipientName, senderNumber }: CelebrationScreenProps) => {
   const hasPlayed = useRef(false);
   const selectedSong = useRef(
     [
@@ -164,6 +165,22 @@ const CelebrationScreen = ({ recipientName }: CelebrationScreenProps) => {
             If it doesn’t start, tap play. 🎶
           </p>
         </motion.div>
+
+        {senderNumber && (
+          <motion.a
+            href={`https://wa.me/${senderNumber}?text=${encodeURIComponent(
+              "Yes, I'd be your Valentine! 💕"
+            )}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center mt-6 px-6 py-3 rounded-full bg-white text-candy-red font-semibold shadow-lg hover:bg-white/90 transition"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.35 }}
+          >
+            Send Your Response 💌
+          </motion.a>
+        )}
 
         <motion.p
           className="mt-10 text-candy-cream/70 text-lg"
