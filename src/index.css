@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Pacifico&display=swap');
+
+@layer base {
+  :root {
+    --background: 0 60% 97%;
+    --foreground: 0 70% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 70% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 70% 20%;
+
+    --primary: 0 75% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 60% 92%;
+    --secondary-foreground: 0 70% 30%;
+
+    --muted: 0 40% 94%;
+    --muted-foreground: 0 30% 45%;
+
+    --accent: 15 85% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 50% 85%;
+    --input: 0 50% 85%;
+    --ring: 0 75% 50%;
+
+    --radius: 1.25rem;
+
+    /* Custom candy colors - Valentine Red theme */
+    --candy-pink: 0 75% 50%;
+    --candy-rose: 0 70% 60%;
+    --candy-red: 0 80% 45%;
+    --candy-coral: 15 85% 55%;
+    --candy-cream: 20 80% 96%;
+    --candy-blush: 0 60% 92%;
+
+    /* Gradients */
+    --gradient-candy: linear-gradient(135deg, hsl(0 80% 45%) 0%, hsl(15 85% 55%) 50%, hsl(0 75% 55%) 100%);
+    --gradient-background: linear-gradient(180deg, hsl(0 60% 97%) 0%, hsl(20 80% 96%) 50%, hsl(0 55% 95%) 100%);
+    --gradient-button: linear-gradient(135deg, hsl(0 80% 45%) 0%, hsl(0 75% 55%) 100%);
+    --gradient-celebration: linear-gradient(135deg, hsl(0 80% 50%) 0%, hsl(0 85% 40%) 100%);
+
+    /* Shadows */
+    --shadow-candy: 0 8px 32px -8px hsl(0 75% 50% / 0.4);
+    --shadow-float: 0 20px 60px -15px hsl(0 75% 50% / 0.3);
+    --shadow-soft: 0 4px 20px -4px hsl(0 70% 60% / 0.25);
+
+    /* Font families */
+    --font-display: 'Pacifico', cursive;
+    --font-body: 'Fredoka', sans-serif;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 0 40% 8%;
+    --foreground: 0 20% 95%;
+
+    --card: 0 40% 12%;
+    --card-foreground: 0 20% 95%;
+
+    --popover: 0 40% 12%;
+    --popover-foreground: 0 20% 95%;
+
+    --primary: 0 75% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 40% 18%;
+    --secondary-foreground: 0 20% 90%;
+
+    --muted: 0 40% 18%;
+    --muted-foreground: 0 20% 60%;
+
+    --accent: 15 85% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 40% 20%;
+    --input: 0 40% 20%;
+    --ring: 0 75% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    font-family: var(--font-body);
+    background: var(--gradient-background);
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, .display-font {
+    font-family: var(--font-display);
+  }
+}
+
+@layer components {
+  .candy-button {
+    @apply relative overflow-hidden rounded-full font-semibold transition-all duration-300;
+    background: var(--gradient-button);
+    box-shadow: var(--shadow-candy);
+  }
+
+  .candy-button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-float);
+  }
+
+  .candy-button:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .candy-card {
+    @apply rounded-3xl bg-card/80 backdrop-blur-sm;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .floating-heart {
+    animation: float-heart 6s ease-in-out infinite;
+  }
+
+  .bouncy {
+    animation: bouncy 0.6s ease-out;
+  }
+
+  @media (max-height: 760px) {
+    .celebration-fit {
+      transform: scale(0.92);
+      transform-origin: top center;
+    }
+  }
+
+  @media (max-height: 680px) {
+    .celebration-fit {
+      transform: scale(0.86);
+    }
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--gradient-candy);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-candy {
+    background: var(--gradient-candy);
+  }
+
+  .bg-gradient-celebration {
+    background: var(--gradient-celebration);
+  }
+}
+
+@keyframes float-heart {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(-3deg);
+  }
+  75% {
+    transform: translateY(-25px) rotate(3deg);
+  }
+}
+
+@keyframes bouncy {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-heart {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.pulse-heart {
+  animation: pulse-heart 1s ease-in-out infinite;
+}

@@ -1,0 +1,70 @@
+import { useState, useCallback } from "react";
+import { motion } from "framer-motion";
+
+interface RunawayButtonProps {
+  attempts: number;
+  onAttempt: () => void;
+}
+
+const noTexts = [
+  "No",
+  "Are you sure?",
+  "Think again...",
+  "Wait, I think you misclicked",
+  "The 'Yes' button is right there!",
+  "Okay, now you're just being mean 😢",
+  "Please? 🥺",
+  "I'll be sad forever 💔",
+];
+
+const RunawayButton = ({ attempts, onAttempt }: RunawayButtonProps) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const runAway = useCallback(() => {
+    if (isAnimating) return;
+    
+    setIsAnimating(true);
+    onAttempt();
+    
+    // Calculate random position within viewport bounds
+    const maxX = window.innerWidth - 200;
+    const maxY = window.innerHeight - 100;
+    
+    const newX = Math.random() * maxX - maxX / 2;
+    const newY = Math.random() * maxY - maxY / 2;
+    
+    setPosition({ x: newX, y: newY });
+    
+    setTimeout(() => setIsAnimating(false), 300);
+  }, [isAnimating, onAttempt]);
+
+  const buttonText = noTexts[Math.min(attempts, noTexts.length - 1)];
+  
+  // Shrink button as attempts increase
+  const scale = Math.max(0.5, 1 - attempts * 0.08);
+
+  return (
+    <motion.button
+      className="px-8 py-4 rounded-full bg-muted text-muted-foreground font-semibold text-lg shadow-lg transition-colors hover:bg-muted/80"
+      animate={{
+        x: position.x,
+        y: position.y,
+        scale: scale,
+      }}
+      whileHover={{ scale: scale * 0.95 }}
+      transition={{
+        type: "spring",
+        stiffness: 400,
+        damping: 25,
+      }}
+      onMouseEnter={runAway}
+      onClick={runAway}
+      onTouchStart={runAway}
+    >
+      {buttonText}
+    </motion.button>
+  );
+};
+
+export default RunawayButton;
