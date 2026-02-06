@@ -28,6 +28,19 @@ const HomePage = () => {
 
   const sanitizePhone = (value: string) => value.replace(/[^\d]/g, "");
 
+  // Ensure phone number starts with country code (+234 for Nigeria)
+  const ensureCountryCode = (phone: string) => {
+    const cleaned = phone.replace(/[^\d+]/g, "");
+    // If it starts with +, keep as is
+    if (cleaned.startsWith("+")) return cleaned;
+    // If it starts with 0, replace with +234
+    if (cleaned.startsWith("0")) return "+234" + cleaned.substring(1);
+    // If it's just digits and starts with 234, add +
+    if (cleaned.startsWith("234")) return "+" + cleaned;
+    // Otherwise, assume it's a Nigerian number without prefix
+    return "+234" + cleaned;
+  };
+
   const encodePayload = (payload: { name: string; sender: string }) => {
     const json = JSON.stringify(payload);
     const base64 = btoa(unescape(encodeURIComponent(json)));
@@ -36,7 +49,8 @@ const HomePage = () => {
 
   const generatedLink = useMemo(() => {
     const formattedName = formatName(name);
-    const sanitizedNumber = sanitizePhone(whatsAppNumber);
+    const numberWithCode = ensureCountryCode(whatsAppNumber);
+    const sanitizedNumber = sanitizePhone(numberWithCode);
     if (!formattedName || !sanitizedNumber) return "";
     const token = encodePayload({ name: formattedName, sender: sanitizedNumber });
     const params = `?t=${encodeURIComponent(token)}`;
@@ -79,7 +93,8 @@ const HomePage = () => {
 
   const handleShareToRecipient = () => {
     if (!generatedLink) return;
-    const recipientNumber = sanitizePhone(recipientWhatsApp);
+    const recipientWithCode = ensureCountryCode(recipientWhatsApp);
+    const recipientNumber = sanitizePhone(recipientWithCode);
     if (!recipientNumber) return;
     const message = `I made something special for you 💌 ${generatedLink}`;
     window.open(getWhatsAppUrl(recipientNumber, message), "_blank", "noreferrer");
@@ -268,6 +283,15 @@ const HomePage = () => {
           transition={{ delay: 0.8 }}
         >
           Share the link and watch the magic happen ✨💞
+        </motion.p>
+
+        <motion.p
+          className="mt-4 text-xs text-muted-foreground/70 max-w-md mx-auto"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9 }}
+        >
+          🔒 <span className="font-semibold">Privacy Notice:</span> No personal data is stored. All information is encoded in the link you share and never saved on any server.
         </motion.p>
       </motion.div>
     </div>
