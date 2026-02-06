@@ -293,6 +293,15 @@ const HomePage = () => {
         >
           🔒 <span className="font-semibold">Privacy Notice:</span> No personal data is stored. All information is encoded in the link you share and never saved on any server.
         </motion.p>
+
+        <motion.p
+          className="mt-6 text-xs text-muted-foreground/60"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+        >
+          Built with <Heart className="w-3 h-3 inline-block mx-1 text-candy-pink fill-candy-pink" /> by Gbemi & Daniblueboy
+        </motion.p>
       </motion.div>
     </div>
   );
