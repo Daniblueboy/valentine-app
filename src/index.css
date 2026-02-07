@@ -45,10 +45,28 @@
     --candy-blush: 0 60% 92%;
 
     /* Gradients */
-    --gradient-candy: linear-gradient(135deg, hsl(0 80% 45%) 0%, hsl(15 85% 55%) 50%, hsl(0 75% 55%) 100%);
-    --gradient-background: linear-gradient(180deg, hsl(0 60% 97%) 0%, hsl(20 80% 96%) 50%, hsl(0 55% 95%) 100%);
-    --gradient-button: linear-gradient(135deg, hsl(0 80% 45%) 0%, hsl(0 75% 55%) 100%);
-    --gradient-celebration: linear-gradient(135deg, hsl(0 80% 50%) 0%, hsl(0 85% 40%) 100%);
+    --gradient-candy: linear-gradient(
+      135deg,
+      hsl(0 80% 45%) 0%,
+      hsl(15 85% 55%) 50%,
+      hsl(0 75% 55%) 100%
+    );
+    --gradient-background: linear-gradient(
+      180deg,
+      hsl(0 60% 97%) 0%,
+      hsl(20 80% 96%) 50%,
+      hsl(0 55% 95%) 100%
+    );
+    --gradient-button: linear-gradient(
+      135deg,
+      hsl(0 80% 45%) 0%,
+      hsl(0 75% 55%) 100%
+    );
+    --gradient-celebration: linear-gradient(
+      135deg,
+      hsl(0 80% 50%) 0%,
+      hsl(0 85% 40%) 100%
+    );
 
     /* Shadows */
     --shadow-candy: 0 8px 32px -8px hsl(0 75% 50% / 0.4);
@@ -105,6 +123,11 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
   body {
     @apply bg-background text-foreground font-body;
     font-family: var(--font-body);
@@ -112,7 +135,10 @@
     min-height: 100vh;
   }
 
-  h1, h2, h3, .display-font {
+  h1,
+  h2,
+  h3,
+  .display-font {
     font-family: var(--font-display);
   }
 }
@@ -204,7 +230,8 @@
 }
 
 @keyframes float-heart {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
   25% {
@@ -236,7 +263,8 @@
 }
 
 @keyframes pulse-heart {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {

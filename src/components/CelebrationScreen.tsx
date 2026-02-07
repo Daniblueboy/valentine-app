@@ -95,7 +95,7 @@ const CelebrationScreen = ({ recipientName, senderNumber }: CelebrationScreenPro
 
   return (
     <motion.div
-      className="fixed inset-0 flex items-start justify-center z-50 px-4 py-6 md:py-10 overflow-hidden"
+      className="min-h-[100dvh] w-screen flex items-start justify-center px-4 py-6 md:py-10 overflow-y-auto overflow-x-hidden relative"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
