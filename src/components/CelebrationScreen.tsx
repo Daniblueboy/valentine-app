@@ -95,7 +95,7 @@ const CelebrationScreen = ({ recipientName, senderNumber }: CelebrationScreenPro
 
   return (
     <motion.div
-      className="min-h-[100dvh] w-screen flex items-start justify-center px-4 py-6 md:py-10 overflow-y-auto overflow-x-hidden relative"
+      className="min-h-[100svh] w-screen flex items-start justify-center px-4 py-6 md:py-10 overflow-y-auto overflow-x-hidden relative"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -171,9 +171,9 @@ const CelebrationScreen = ({ recipientName, senderNumber }: CelebrationScreenPro
             <iframe
               width="100%"
               height="100%"
-              src={`https://www.youtube.com/embed/${selectedSong.current.id}?autoplay=1&mute=0&loop=1&playlist=${selectedSong.current.id}&rel=0&playsinline=1${origin ? `&origin=${encodeURIComponent(origin)}` : ""}`}
+              src={`https://www.youtube.com/embed/${selectedSong.current.id}?autoplay=1&mute=0&loop=1&playlist=${selectedSong.current.id}&controls=1&modestbranding=1&rel=0&playsinline=1&enablejsapi=1${origin ? `&origin=${encodeURIComponent(origin)}` : ""}`}
               title={`Love Song - ${selectedSong.current.title}`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
               className="border-0"
             />

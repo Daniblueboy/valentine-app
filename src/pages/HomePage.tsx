@@ -100,7 +100,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="h-[100dvh] w-screen flex items-center justify-center p-4 relative overflow-hidden small-screen-scroll">
+    <div className="h-[100svh] w-screen flex items-center justify-center p-4 relative overflow-hidden small-screen-scroll">
       <FloatingHearts />
       
       <motion.div
