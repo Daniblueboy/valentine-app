@@ -158,8 +158,25 @@ const CelebrationScreen = ({ recipientName, senderNumber }: CelebrationScreenPro
           {recipientName ? `${recipientName}, you` : "You"} just made me the happiest person in the world! 💕🌹
         </motion.p>
 
+        {senderNumber && (
+          <motion.a
+            href={getWhatsAppUrl(
+              senderNumber,
+              "Yes, I'd be your Valentine! 💕"
+            )}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center mb-8 px-6 py-3 rounded-full bg-white text-candy-red font-semibold shadow-lg hover:bg-white/90 transition"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1 }}
+          >
+            Send Your Response 💌
+          </motion.a>
+        )}
+
         <motion.div
-          className="bg-card/95 backdrop-blur-md rounded-3xl p-6 shadow-2xl border border-white/70 mt-1 md:mt-2 -translate-y-8 md:-translate-y-10"
+          className="bg-card/95 backdrop-blur-md rounded-3xl p-6 shadow-2xl border border-white/70"
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 1.2 }}
@@ -183,22 +200,7 @@ const CelebrationScreen = ({ recipientName, senderNumber }: CelebrationScreenPro
           </p>
         </motion.div>
 
-        {senderNumber && (
-          <motion.a
-            href={getWhatsAppUrl(
-              senderNumber,
-              "Yes, I'd be your Valentine! 💕"
-            )}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center mt-6 px-6 py-3 rounded-full bg-white text-candy-red font-semibold shadow-lg hover:bg-white/90 transition"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.35 }}
-          >
-            Send Your Response 💌
-          </motion.a>
-        )}
+
 
         <motion.p
           className="mt-10 text-candy-cream/70 text-lg"
